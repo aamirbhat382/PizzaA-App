@@ -2,8 +2,18 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const ejs = require("ejs");
-const expressLayout = require('express-ejs-layouts')
+const expressLayout = require('express-ejs-layouts');
+const mongoose = require('mongoose');
 const port = 80;
+
+// Database connection
+mongoose.connect("mongodb://localhost:27017/Aamirhat", { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true });
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log('Database connected...');
+}).catch(err => {
+    console.log('Connection failed...')
+});
 
 // Server Static Files
 app.use(express.static('public'))
@@ -15,19 +25,11 @@ app.set('views', path.join(__dirname, '/resources/views'))
 app.set('view engine', 'ejs')
 
 
-// require("./routes/web")()
-app.get('/', (req, res) => {
-    res.status(200).render("home")
-});
-app.get('/cart', (req, res) => {
-    res.status(200).render("customers/cart.ejs")
-});
-app.get('/login', (req, res) => {
-    res.status(200).render("auth/login")
-});
-app.get('/register', (req, res) => {
-    res.status(200).render("auth/register")
-});
+
+
+//  Routse Go Here (Sorry For Wrong Commints)
+
+require("./routes/web")(app)
 
 
 
