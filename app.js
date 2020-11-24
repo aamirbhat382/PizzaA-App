@@ -32,6 +32,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hour
 }))
+app.use(express.json())
 app.use(flash())
     // Server Static Files
 app.use(express.static('public'))
