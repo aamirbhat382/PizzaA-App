@@ -8,7 +8,7 @@ function authController() {
         login: (req, res, next) => {
             res.render("./auth/login")
         },
-        loginPost: (req, res) => {
+        loginPost: (req, res, next) => {
             const { email, password } = req.body
             if (!email || !password) {
                 req.flash('error', 'All fields are required')
@@ -31,7 +31,7 @@ function authController() {
 
                     return res.redirect("/")
                 })
-            })(req, res, )
+            })(req, res, next)
 
         },
         register: (req, res) => {
