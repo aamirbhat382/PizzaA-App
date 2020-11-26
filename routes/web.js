@@ -6,7 +6,11 @@ const cartController = require("../app/http/controllers/customers/cartController
 function routes(app) {
     app.get('/', homeController().index)
     app.get('/login', authController().login)
+    app.post('/login', authController().loginPost)
     app.get('/register', authController().register)
+    app.post('/register', authController().registerPost)
+
     app.get('/cart', cartController().cart)
+    app.post('/updateCart', cartController().update)
 }
 module.exports = routes

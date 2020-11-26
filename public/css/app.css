@@ -539,3 +539,36 @@ section.status {
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
+
+
+/*  My Css */
+
+
+/* 
+.items-added {
+    background-color: green;
+    display: none;
+    width: 20vw;
+    justify-content: center;
+    border-radius: 10px;
+    animation-name: itemAdd;
+    animation-duration: 3s;
+}
+
+.items-added span {
+    padding: 10px;
+    color: white;
+    font-style: italic;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+@keyframes itemAdd {
+    from {
+        background-color: green;
+        transform: translateX(-30vw);
+    }
+    to {
+        background-color: blue;
+        transform: translateX(0vw);
+    }
+} */
