@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -11,13 +12,14 @@ const passport = require('passport')
 const port = 80;
 
 // Database connection
-mongoose.connect("mongodb://localhost:27017/AamirBhat", { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true });
+mongoose.connect(process.env.MONGO_CONNECTION_URL, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('Database connected...');
 }).catch(err => {
     console.log('Connection failed...')
 });
+
 // Session Store
 let mongoStore = new MongoDbStore({
     mongooseConnection: connection,
@@ -25,22 +27,23 @@ let mongoStore = new MongoDbStore({
 })
 
 // Session config
-const secret = "Aamir"
+
 app.use(session({
-        secret: secret,
-        resave: false,
-        store: mongoStore,
-        saveUninitialized: false,
-        cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hour
-    }))
-    // Passport config
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    store: mongoStore,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hour
+}))
+
+// Passport config
 const passportInit = require('./app/config/passport')
 passportInit(passport)
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Server Static Files
-app.use(express.static('public'))
+
+//   Data  
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
     // Global middleware
@@ -54,13 +57,10 @@ app.use(flash())
 app.use(expressLayout)
 app.set('views', path.join(__dirname, '/resources/views'))
 app.set('view engine', 'ejs')
+    // Server Static Files
+app.use(express.static('public'))
 
-
-
-
-
-//  Routse Go Here (Sorry For Wrong Commints)
-
+//   All Routse 
 require("./routes/web")(app)
 
 

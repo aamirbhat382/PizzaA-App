@@ -69,7 +69,12 @@ function authController() {
                 req.flash('error', 'Something went wrong')
                 return res.redirect('/register')
             })
+        },
+        logout: (req, res) => {
+            req.logout()
+            return res.redirect('/login')
         }
+
     }
 
 
@@ -78,3 +83,5 @@ function authController() {
 
 
 module.exports = authController
+
+//  all Auth Controllers
