@@ -2,6 +2,7 @@
 const homeController = require("../app/http/controllers/homeController");
 const authController = require("../app/http/controllers/customers/authController")
 const cartController = require("../app/http/controllers/customers/cartController")
+const orderController = require('../app/http/controllers/customers/orderController')
     // Middlewares
 const guest = require("../app/http/middlewares/guest")
 
@@ -20,5 +21,7 @@ function routes(app) {
         //  Cart Rout
     app.get('/cart', cartController().cart)
     app.post('/updateCart', cartController().update)
+        // Costomers Route
+    app.post("/orders", orderController().store)
 }
 module.exports = routes
