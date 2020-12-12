@@ -1,5 +1,5 @@
 const Order = require('../../../models/order')
-
+const moment = require('moment')
 
 
 function orderController() {
@@ -17,10 +17,18 @@ function orderController() {
                 address
             })
             order.save().then(result => {
-                res.render('customers/orders')
+                delete req.session.cart
+                req.flash('success', ' Order placed successfully')
+                return res.redirect('/customer/orders')
             }).catch(err => {
                 console.log("Some Thing went Wrong")
             })
+        },
+        async index(req, res) {
+            const orders = await Order.find({ customerId: req.user._id },
+                null, { sort: { 'createdAt': -1 } })
+            res.header('Cache-Control', 'no-store')
+            res.render('customers/orders', { orders: orders, moment: moment })
         }
     }
 }

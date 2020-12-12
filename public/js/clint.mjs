@@ -1,5 +1,6 @@
 // import axiox from "axios";
 // import Noty from "noty";
+// import { init } from "./admin"
 let addToCart = document.querySelectorAll(".add-to-cart");
 let counter = document.getElementById('cart-counter')
 
@@ -33,3 +34,5 @@ addToCart.forEach((btn) => {
         updateCart(pizza)
     })
 })
+
+// init()
