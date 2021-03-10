@@ -6,6 +6,7 @@ const passport = require('passport')
 function authController() {
     return {
         login: (req, res, next) => {
+
             res.render("./auth/login")
         },
         loginPost: (req, res, next) => {

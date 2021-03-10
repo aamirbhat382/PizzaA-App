@@ -1,21 +1,33 @@
 // import moment from "moment";
 // console.log("helloworld")
+let orders = []
+let markup
 fetch('/admin/orders', {
-    headers: {
-        "X-Requested-With": "XMLHttpRequest"
-    }
-}).then((response) => {
-    return response.json()
-}).then((res) => {
-    // console.log(res)
-    orders = res
-    console.log(orders)
-    markup = generateMarkup(orders)
-    const orderTableBody = document.querySelector('#orderTableBody');
-    orderTableBody.innerHTML = markup
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    }).then((response) => {
+        return response.json()
+    }).then((res) => {
+        // console.log(res)
+        orders = res
+            // console.log(orders)
+        markup = generateMarkup(orders)
+        const orderTableBody = document.querySelector('#orderTableBody');
+        orderTableBody.innerHTML = markup
 
-})
+    })
+    // socket
 
+
+function formet(createdAt) {
+    let _Miliseonds = Date.parse(createdAt)
+    let _Date = new Date(_Miliseonds)
+    let timeString = _Date.toLocaleTimeString()
+        // let dateString = _Date.toLocaleDateString()
+    return timeString
+        // it takes me 2 hours
+}
 // fuction generateMarkup(orders)
 
 function renderItems(items) {
@@ -70,12 +82,23 @@ function generateMarkup(orders) {
                 </div>
             </td>
             <td class="border px-4 py-2">
-                ${order.createdAt }
+                ${formet(order.createdAt) }
             </td>
             <td class="border px-4 py-2">
                 ${ order.paymentStatus ? 'paid' : 'Not paid' }
             </td>
         </tr>
+        
     `
     }).join('')
 }
+let adminsocket = io()
+let adminAreaPath = window.location.pathname
+if (adminAreaPath.includes('admin')) {
+    adminsocket.emit('join', 'adminRoom')
+}
+adminsocket.on('orderPlaced', (order) => {
+    orders.unshift(order)
+    orderTableBody.innerHTML = ''
+    orderTableBody.innerHTML = generateMarkup(orders)
+})

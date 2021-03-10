@@ -1,6 +1,7 @@
 // import axiox from "axios";
 // import Noty from "noty";
 // import { init } from "./admin"
+// import momet from
 let addToCart = document.querySelectorAll(".add-to-cart");
 let counter = document.getElementById('cart-counter')
 
@@ -66,6 +67,17 @@ function updateStatus(order) {
     })
 }
 updateStatus(order);
-let times = Date()
-times.toLocaleString
-console.log(times)
+let socket = io()
+    //     // Join
+if (order) {
+    socket.emit('join', `order_${order._id}`)
+}
+socket.on('orderUpdated', (data) => {
+    const updatedOrder = {...order }
+    let currenttime = new Date()
+    updatedOrder.updatedAt = currenttime.toLocaleTimeString()
+    updatedOrder.status = data.status
+    updateStatus(updatedOrder)
+    console.log('order Updated')
+
+})
