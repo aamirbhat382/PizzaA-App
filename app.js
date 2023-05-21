@@ -10,18 +10,17 @@ const flash = require('express-flash')
 const MongoDbStore = require('connect-mongo')(session)
 const passport = require('passport')
 const Emitter = require('events')
-const port = 80;
+const port = 3000;
 
 // Database connection
 // Database connection
 
-mongoose.connect(process.env.MONGO_CONNECTION_URL, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true });
+mongoose.connect("URL", { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('Database connected...');
-}).catch(err => {
-    console.log('Connection failed...')
-});
+})
+
 
 // Session Store
 let mongoStore = new MongoDbStore({
@@ -36,7 +35,7 @@ app.set('eventEmitter', eventEmitter)
 // Session config
 
 app.use(session({
-    secret: process.env.COOKIE_SECRET,
+    secret: "process.env.COOKIE_SECRET",
     resave: false,
     store: mongoStore,
     saveUninitialized: false,
@@ -72,7 +71,7 @@ require("./routes/web")(app)
 
 
 // Server 
-const server = app.listen(80, () => {
+const server = app.listen(port, () => {
     console.log(`Server Started at Port ${port}`)
 })
 
